@@ -70,12 +70,13 @@ public class EmployeesUpdateServlet extends HttpServlet {
             e.setUpdated_at(new Timestamp(System.currentTimeMillis()));
             e.setDelete_flag(0);
 
-            List<String> erros = EmployeeValidator.validate(e, codeDuplicateCheckFlag, passwordCheckFlag);
-            if (erros.size() > 0) {
+            List<String> errors = EmployeeValidator.validate(e, codeDuplicateCheckFlag, passwordCheckFlag);
+            if (errors.size() > 0) {
                 em.close();
 
                 request.setAttribute("_token", request.getSession().getId());
                 request.setAttribute("employee", e);
+                request.setAttribute("errors", errors);
 
                 RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/employees/edit.jsp");
                 rd.forward(request, response);
